@@ -7,6 +7,7 @@
 | P-03 | 2026-11-14 | La referencia de Dribbble choca con C-3 (no copiar diseños ajenos). ¿Qué hago? | **Copiar lo más fiel posible** (respondido; imágenes propias) |
 | P-04 | 2026-11-14 | No hay Docker ni Supabase CLI. ¿Base de datos? | **Empezar con fixtures**; la dueña creará un Supabase de pruebas cuando pueda (respondido) |
 | P-05 | 2026-11-14 | La referencia es salvia medio con texto blanco; el encargo exige tema claro. ¿Cómo? | **Dos temas, Salvia por defecto + interruptor «Claro» en Ajustes** (respondido) |
+| P-06 | 2026-11-14 | 31 defectos claros de v1 que no cambian reglas: ¿corregir o copiar tal cual? | **Corregir, sin tocar reglas**; los de base de datos solo se documentan (respondido) |
 
 ## Preguntas abiertas heredadas de la especificación (§19) — se mantiene v1
 Q-01 dos fórmulas de balance · Q-02 hora de entrega en fichajes sin conexión · Q-03 el trabajador lee

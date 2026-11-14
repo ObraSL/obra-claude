@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ===================================================================
+   CONTROL DE OBRA v2 — sistema visual «Salvia»
+   -------------------------------------------------------------------
+   Dos temas con los mismos papeles de color (ver ENTREGA/01-diseno):
+   · salvia (por defecto): lienzo salvia medio, texto blanco, acento lima.
+   · claro  (data-tema="claro"): papel claro para pleno sol; los paneles
+     de datos siguen siendo salvia hondo con texto blanco, así la
+     identidad no cambia entre temas.
+   Contrastes medidos (WCAG 2.x) en ENTREGA/01-diseno/identidad.md.
+   Nunca usar un color «a mano»: siempre estos tokens.
+   =================================================================== */
+
+:root {
+  /* Superficies */
+  --c-fondo: #6b7867;        /* lienzo                          blanco 4.66 AA      */
+  --c-sup: #5d6a59;          /* tarjetas, hojas                 blanco 5.72 AA      */
+  --c-sup-honda: #4b5848;    /* paneles de datos, barra inferior blanco 7.2 AAA     */
+  --c-sup-alta: #7a8776;     /* teselas de icono sobre el lienzo (solo iconos)      */
+  --c-velo: rgb(75 88 72 / 0.78); /* barras flotantes (con desenfoque)              */
+  --c-linea: rgb(255 255 255 / 0.14);
+
+  /* Tinta */
+  --c-tinta: #ffffff;
+  --c-tinta-2: #e6ebe2;      /* secundaria: SOLO sobre sup / sup-honda (≥4.7)       */
+  --c-sobre-honda: #ffffff;  /* texto sobre sup-honda, igual en los dos temas       */
+  --c-sobre-honda-2: #e6ebe2;
+
+  /* Acentos */
+  --c-lima: #d5e09c;         /* relleno de la acción principal  negro 12.97 AAA     */
+  --c-sobre-lima: #141613;
+  --c-lima-texto: #d5e09c;   /* lima como texto, solo sobre sup-honda (5.2 AA)      */
+  --c-coral: #f0937c;        /* relleno de alerta               negro 7.95 AAA      */
+  --c-sobre-coral: #141613;
+  --c-coral-texto: #ffc4b5;  /* coral como texto sobre sup-honda                    */
+  --c-negro: #141613;        /* botón secundario                blanco 18.2 AAA     */
+  --c-sobre-negro: #ffffff;
+
+  /* Campos de formulario: claros en los dos temas (legibles al sol) */
+  --c-campo: #f4f6f1;
+  --c-sobre-campo: #141613;
+  --c-campo-borde: #c9d1c4;
+  --c-campo-pista: #4f5a4c;
+
+  --c-foco: #d5e09c;
+  --c-scrim: rgb(20 22 19 / 0.55);
+
+  color-scheme: dark;
+}
+
+:root[data-tema="claro"] {
+  --c-fondo: #eef1ea;        /* negro 15.95 AAA */
+  --c-sup: #ffffff;          /* negro 18.2 AAA  */
+  --c-sup-honda: #4b5848;
+  --c-sup-alta: #dfe5da;
+  --c-velo: rgb(255 255 255 / 0.86);
+  --c-linea: rgb(20 22 19 / 0.12);
+
+  --c-tinta: #141613;
+  --c-tinta-2: #3d4739;      /* 8.5 AAA sobre el fondo */
+
+  --c-lima-texto: #4a5d14;   /* 6.4 AA sobre fondo, 7.3 AAA sobre blanco */
+  --c-coral-texto: #b8452c;  /* 5.35 AA sobre blanco */
+  --c-foco: #4a5d14;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-fondo: var(--c-fondo);
+  --color-sup: var(--c-sup);
+  --color-sup-honda: var(--c-sup-honda);
+  --color-sup-alta: var(--c-sup-alta);
+  --color-velo: var(--c-velo);
+  --color-linea: var(--c-linea);
+  --color-tinta: var(--c-tinta);
+  --color-tinta-2: var(--c-tinta-2);
+  --color-sobre-honda: var(--c-sobre-honda);
+  --color-sobre-honda-2: var(--c-sobre-honda-2);
+  --color-lima: var(--c-lima);
+  --color-sobre-lima: var(--c-sobre-lima);
+  --color-lima-texto: var(--c-lima-texto);
+  --color-coral: var(--c-coral);
+  --color-sobre-coral: var(--c-sobre-coral);
+  --color-coral-texto: var(--c-coral-texto);
+  --color-negro: var(--c-negro);
+  --color-sobre-negro: var(--c-sobre-negro);
+  --color-campo: var(--c-campo);
+  --color-sobre-campo: var(--c-sobre-campo);
+  --color-campo-borde: var(--c-campo-borde);
+  --color-campo-pista: var(--c-campo-pista);
+  --color-foco: var(--c-foco);
+  --color-scrim: var(--c-scrim);
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala tipográfica (pocas tallas que trabajan; ver identidad.md) */
+  --text-micro: 0.75rem;     /* 12 — solo datos secundarios, nunca acciones */
+  --text-micro--line-height: 1rem;
+  --text-peq: 0.875rem;      /* 14 */
+  --text-peq--line-height: 1.25rem;
+  --text-base: 1rem;         /* 16 */
+  --text-base--line-height: 1.4rem;
+  --text-campo: 1.0625rem;   /* 17 — campos: evita el zoom de iOS */
+  --text-campo--line-height: 1.5rem;
+  --text-titulo: 1.25rem;    /* 20 */
+  --text-titulo--line-height: 1.6rem;
+  --text-h1: 1.625rem;       /* 26 */
+  --text-h1--line-height: 2rem;
+  --text-cifra: 2.5rem;      /* 40 — cifras grandes */
+  --text-cifra--line-height: 1;
+  --text-gigante: 3.5rem;    /* 56 — el momento firma */
+  --text-gigante--line-height: 1;
+
+  --radius-boton: 6px;
+  --radius-panel: 14px;
+  --radius-hoja: 22px;
+
+  --ease-obra: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* -------------------------------------------------------------------
+   Base. Lo de html/body es la lección de v1 (TRAMPAS T-04/T-05): sin
+   esto el iPhone deja arrastrar la página de lado y rebota.
+   ------------------------------------------------------------------- */
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+body {
+  background: var(--c-fondo);
+  color: var(--c-tinta);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" on;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+input,
+select,
+textarea {
+  color-scheme: light;
+}
+
+::selection {
+  background: var(--c-lima);
+  color: var(--c-sobre-lima);
+}
+
+/* Foco visible y gordo: se ve al sol y con teclado en el ordenador */
+:focus-visible {
+  outline: 3px solid var(--c-foco);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Cifras de dinero y horas: siempre tabulares */
+.cifras {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" on, "ss01" on;
+}
+
+/* Zonas seguras (T-04/T-13) */
+.pt-seguro {
+  padding-top: env(safe-area-inset-top);
+}
+.pb-seguro {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Movimiento (solo transform/opacity)
+   ------------------------------------------------------------------- */
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hoja-entra {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes velo-entra {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes varilla {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes sello {
+  0% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.97);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* El edificio sube planta a planta (components/marca/Edificio.tsx) */
+@keyframes planta-sube {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes grua-gira {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-1.2deg);
+  }
+}
+.edificio-planta {
+  animation: planta-sube 520ms var(--ease-obra) both;
+}
+.edificio-grua {
+  transform-box: fill-box;
+  transform-origin: 60% 100%;
+  animation: velo-entra 600ms ease both, grua-gira 7s ease-in-out 600ms infinite;
+}
+
+.anim-subir {
+  animation: subir 420ms var(--ease-obra) both;
+}
+.anim-sello {
+  animation: sello 520ms var(--ease-obra) both;
+}
+.anim-latido {
+  animation: latido 1.2s ease-in-out infinite;
+}
