@@ -1,0 +1,46 @@
+-- Punto 15 del plan: autotest de aislamiento entre empresas (se hace en una
+-- transaccion con ROLLBACK, no toca datos reales -- ver mas abajo). El test
+-- encontro una politica vieja, "ajustes lectura", que nadie habia tocado al
+-- arreglar las demas para la Fase 2: su "using" tenia un OR en vez de un
+-- AND, así que dejaba leer la jornada (ajustes.jornada_horas) de CUALQUIER
+-- empresa a cualquier usuario con un rol aprobado, sin comprobar la
+-- empresa. La política "ajustes leer" (creada en el punto 14) ya cubre el
+-- acceso correcto por empresa, así que esta sobra.
+-- Pega este archivo entero en Supabase → SQL Editor → Run. Es seguro volver
+-- a ejecutarlo. Lo mismo está en schema.sql.
+
+drop policy if exists "ajustes lectura" on public.ajustes;
+
+-- ---------------------------------------------------------------
+-- Test de aislamiento usado para encontrar esto (y para repetir en el
+-- futuro antes de cada release): todo dentro de una transacción que
+-- termina en ROLLBACK, no deja nada guardado. Simula que un trabajador
+-- real es en realidad el dueño de una empresa de prueba, y comprueba que
+-- no ve nada de la empresa real. Cambia el user_id por el de cualquier
+-- usuario real que tengas a mano.
+-- ---------------------------------------------------------------
+-- begin;
+-- insert into public.empresas (nombre) values ('__TEST_AISLAMIENTO__');
+-- update public.miembros
+-- set empresa_id = (select id from public.empresas where nombre = '__TEST_AISLAMIENTO__'),
+--     rol = 'dueno'
+-- where user_id = '<uuid de un usuario real>';
+-- set local role authenticated;
+-- set local request.jwt.claim.sub = '<el mismo uuid>';
+-- set local request.jwt.claim.role = 'authenticated';
+-- select jsonb_build_object(
+--   'obras', (select count(*) from public.obras),
+--   'trabajadores', (select count(*) from public.trabajadores),
+--   'vehiculos', (select count(*) from public.vehiculos),
+--   'proveedores', (select count(*) from public.proveedores),
+--   'entregas', (select count(*) from public.entregas),
+--   'ajustes', (select count(*) from public.ajustes),
+--   'gastos', (select count(*) from public.gastos),
+--   'fichajes', (select count(*) from public.fichajes),
+--   'facturas', (select count(*) from public.facturas),
+--   'tareas', (select count(*) from public.tareas),
+--   'usos_vehiculo', (select count(*) from public.usos_vehiculo),
+--   'notas_audio', (select count(*) from public.notas_audio),
+--   'cobros', (select count(*) from public.cobros)
+-- ) as resultado; -- todo debe salir en 0
+-- rollback;

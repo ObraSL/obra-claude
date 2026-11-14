@@ -1,0 +1,27 @@
+# Referencia congelada de v1 (no se versiona)
+_ref-v1/
+
+# Dependencias y builds
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Secretos y entorno
+.env*
+!.env.example
+
+# Temporales, cachés y artefactos de QA
+.tmp/
+.playwright-cli/
+test-results/
+playwright-report/
+*.log
+.DS_Store
+Thumbs.db
+
+# Vercel / Supabase local
+.vercel
+supabase/.temp/
