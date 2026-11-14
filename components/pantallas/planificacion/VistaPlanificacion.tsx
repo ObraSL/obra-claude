@@ -1,5 +1,6 @@
 "use client";
 
+import { ViewTransition } from "react";
 import { FileSpreadsheet, Plus } from "lucide-react";
 import { localeActual, tr, trJsx, trN } from "@/lib/i18n";
 import { fmtDate, fmtEUR } from "@/lib/format";
@@ -50,9 +51,11 @@ export function VistaPlanificacion(p: PropsPlanificacion) {
       <header>
         <FotoObra className="-mx-4 h-64 md:mx-0 md:h-72 md:rounded-panel" />
         <h1 className="relative -mt-6 text-peq font-medium">{tr("Avance de la obra")}</h1>
-        <p className="cifras text-gigante font-light tracking-[-0.04em]" data-testid="avance-obra">
-          {fmtAvance(exacto)}%
-        </p>
+        <ViewTransition name="cifra-avance" share="morph" default="none">
+          <p className="cifras text-gigante font-light tracking-[-0.04em]" data-testid="avance-obra">
+            {fmtAvance(exacto)}%
+          </p>
+        </ViewTransition>
         <p className="mt-1 text-base" data-testid="avance-resumen">
           {p.tareas.length === 0
             ? tr("Todavía no hay plan")

@@ -384,3 +384,112 @@ textarea {
     background: var(--vidrio-solido);
   }
 }
+
+/* ---------- Transiciones entre pantallas (View Transitions) ----------
+   Next + React las activan solas al navegar (guía «view-transitions»); aquí solo
+   está cómo se ven. Idea: la pantalla se desliza un poco (28 px, no 100 %) y se
+   funde, en la dirección de la navegación; la cabecera y la barra inferior no se
+   mueven (son el ancla); la foto y la cifra de avance se transforman de una
+   pantalla a otra; la tesela de «aquí estás» se desliza entre iconos.
+   --vt-k alarga todo (1 = normal); solo se toca para depurar con cámara lenta. */
+:root {
+  --vt-k: 1;
+  --vt-salida: calc(130ms * var(--vt-k));
+  --vt-entrada: calc(240ms * var(--vt-k));
+  --vt-mover: calc(360ms * var(--vt-k));
+}
+::view-transition {
+  pointer-events: none; /* los toques durante la animación llegan a la pantalla de verdad */
+}
+
+@keyframes vt-fundido {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vt-desliza {
+  from {
+    translate: var(--vt-desp, 0) 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+@keyframes vt-por-desenfoque {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+/* Hacia delante: la que sale se va a la izquierda, la nueva entra por la derecha. */
+::view-transition-old(.pag-adelante) {
+  --vt-desp: -28px;
+  animation:
+    var(--vt-salida) ease-in both vt-fundido reverse,
+    var(--vt-mover) var(--ease-obra) both vt-desliza reverse;
+}
+::view-transition-new(.pag-adelante) {
+  --vt-desp: 28px;
+  animation:
+    var(--vt-entrada) ease-out calc(var(--vt-salida) * 0.6) both vt-fundido,
+    var(--vt-mover) var(--ease-obra) both vt-desliza;
+}
+/* Hacia atrás: al revés. */
+::view-transition-old(.pag-atras) {
+  --vt-desp: 28px;
+  animation:
+    var(--vt-salida) ease-in both vt-fundido reverse,
+    var(--vt-mover) var(--ease-obra) both vt-desliza reverse;
+}
+::view-transition-new(.pag-atras) {
+  --vt-desp: -28px;
+  animation:
+    var(--vt-entrada) ease-out calc(var(--vt-salida) * 0.6) both vt-fundido,
+    var(--vt-mover) var(--ease-obra) both vt-desliza;
+}
+/* Sin dirección (atrás del navegador, recargas): solo un fundido corto. */
+::view-transition-old(.pag-fundido) {
+  animation: var(--vt-salida) ease-in both vt-fundido reverse;
+}
+::view-transition-new(.pag-fundido) {
+  animation: var(--vt-entrada) ease-out calc(var(--vt-salida) * 0.6) both vt-fundido;
+}
+
+/* Lo que se transforma de una pantalla a otra: foto, cifra y tesela de la barra. */
+::view-transition-group(.morph) {
+  animation-duration: calc(420ms * var(--vt-k));
+  animation-timing-function: var(--ease-obra);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: vt-por-desenfoque;
+}
+::view-transition-group(nav-activo) {
+  z-index: 101; /* por encima del cristal de la barra */
+}
+
+/* Ancla: cabecera y barra inferior no se mueven ni se funden. */
+::view-transition-group(cabecera),
+::view-transition-group(barra-inferior) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(cabecera),
+::view-transition-old(barra-inferior) {
+  display: none;
+}
+::view-transition-new(cabecera),
+::view-transition-new(barra-inferior) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

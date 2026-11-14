@@ -2,9 +2,11 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { ArrowUpRight, ChevronRight, Clock3, MapPin, Truck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { tr, trJsx, trN } from "@/lib/i18n";
+import { TIPO_ADELANTE } from "@/lib/nav";
 import { fmtDate, fmtEUR, fmtEURCorto } from "@/lib/format";
 import type { Tarea } from "@/lib/types";
 import { FotoObra } from "@/components/marca/FotoObra";
@@ -105,10 +107,13 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h2 className="text-peq">{tr("Avance de la obra")}</h2>
-              <CifraAvance valor={p.avance} className="mt-2" />
+              <ViewTransition name="cifra-avance" share="morph" default="none">
+                <CifraAvance valor={p.avance} className="mt-2" />
+              </ViewTransition>
             </div>
             <Link
               href="/planificacion"
+              transitionTypes={TIPO_ADELANTE}
               aria-label={tr("Ver la planificación")}
               className="inline-flex size-11 shrink-0 items-center justify-center rounded-[8px] bg-lima text-sobre-lima active:scale-95"
             >
@@ -118,7 +123,7 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
 
           {/* Sin plan el número sería un 0 sin explicación: mejor decir por qué. */}
           {!p.cargando && p.tareas.length === 0 && (
-            <Link href="/planificacion" className="mt-2 inline-flex min-h-11 items-center text-base font-medium underline underline-offset-4">
+            <Link href="/planificacion" transitionTypes={TIPO_ADELANTE} className="mt-2 inline-flex min-h-11 items-center text-base font-medium underline underline-offset-4">
               {tr("Todavía no hay plan — añádelo o tráelo del Excel")}
             </Link>
           )}
@@ -160,7 +165,7 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
       {/* El plan en miniatura: de un toque se abre el Gantt completo (en el
           móvil, Planificación se alcanza desde aquí: SHL-02). */}
       {p.tareas.length > 0 && p.finPrevisto && (
-        <Link href="/planificacion" className="block rounded-panel">
+        <Link href="/planificacion" transitionTypes={TIPO_ADELANTE} className="block rounded-panel">
           <Panel tono="honda" como="div">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-titulo font-medium">{tr("Planificación")}</h2>

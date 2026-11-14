@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ViewTransition } from "react";
 
 /**
  * LA FOTO DE LA OBRA — portada de Inicio, Planificación y la pantalla pública.
@@ -15,20 +16,24 @@ import clsx from "clsx";
  */
 export function FotoObra({ className, prioritaria = false }: { className?: string; prioritaria?: boolean }) {
   return (
-    <div aria-hidden className={clsx("foto-obra", className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/fotos/obra-1200.webp"
-        srcSet="/fotos/obra-700.webp 700w, /fotos/obra-1200.webp 1200w"
-        sizes="(min-width: 768px) 60vw, 100vw"
-        width={1200}
-        height={973}
-        alt=""
-        decoding="async"
-        fetchPriority={prioritaria ? "high" : "auto"}
-        className="foto-obra__img"
-      />
-      <div className="foto-obra__tinte" />
-    </div>
+    // Con nombre: al pasar de Inicio a Planificación (u otra pantalla con foto) la
+    // foto no desaparece y reaparece, sino que se transforma de un tamaño al otro.
+    <ViewTransition name="foto-obra" share="morph" default="none">
+      <div aria-hidden className={clsx("foto-obra", className)}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/fotos/obra-1200.webp"
+          srcSet="/fotos/obra-700.webp 700w, /fotos/obra-1200.webp 1200w"
+          sizes="(min-width: 768px) 60vw, 100vw"
+          width={1200}
+          height={973}
+          alt=""
+          decoding="async"
+          fetchPriority={prioritaria ? "high" : "auto"}
+          className="foto-obra__img"
+        />
+        <div className="foto-obra__tinte" />
+      </div>
+    </ViewTransition>
   );
 }

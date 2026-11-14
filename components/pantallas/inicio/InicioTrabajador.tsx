@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, CalendarDays, LogIn, LogOut, MapPin } from "lucide-react";
 import { tr } from "@/lib/i18n";
+import { TIPO_ADELANTE } from "@/lib/nav";
 import { useDb } from "@/lib/datos/provider";
 import { avanceObra, fichajesDeHoyDelTrabajador, horasDelMesDeTrabajador } from "@/lib/datos/consultas";
 import { useObra } from "@/lib/obra-context";
@@ -54,6 +55,7 @@ export function VistaInicioTrabajador(p: PropsInicioTrabajador) {
 
       <Link
         href="/fichajes"
+        transitionTypes={TIPO_ADELANTE}
         data-testid="ir-a-fichar"
         className={
           "flex min-h-[76px] items-center justify-between gap-3 rounded-[10px] px-5 py-4 text-titulo font-medium active:scale-[0.985] " +

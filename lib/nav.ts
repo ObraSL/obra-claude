@@ -81,3 +81,25 @@ export const RUTAS_SOLO_GESTORES = ["/gastos", "/facturas", "/notas", "/resumen"
 /** ¿La ruta está activa? "/" solo por igualdad exacta (como en el proxy, T-17). */
 export const rutaActiva = (href: string, pathname: string) =>
   href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
+/**
+ * Orden «de lectura» de las pantallas, el mismo de la barra lateral:
+ * Inicio → Planificación → secciones → Resumen → Ajustes. Sirve para decidir
+ * hacia dónde se desliza una pantalla al navegar: hacia un destino posterior
+ * entra por la derecha («adelante»); hacia uno anterior, por la izquierda
+ * («atras»). Es solo animación: no cambia qué ve cada rol (eso lo decide nav).
+ */
+const ORDEN_PANTALLAS = ["/", "/planificacion", "/fichajes", "/vehiculos", "/gastos", "/dinero", "/notas", "/resumen", "/ajustes"];
+const rangoPantalla = (ruta: string) => ORDEN_PANTALLAS.findIndex((r) => rutaActiva(r, ruta));
+
+/** Tipo de transición (`transitionTypes` de <Link>) para ir de `desde` a `hacia`. */
+export function tipoSalto(desde: string, hacia: string): ("adelante" | "atras")[] {
+  const a = rangoPantalla(desde);
+  const b = rangoPantalla(hacia);
+  if (a < 0 || b < 0 || a === b) return [];
+  return [b > a ? "adelante" : "atras"];
+}
+
+/** Desde Inicio, todo es «adelante» (tarjetas y atajos que bajan a otra pantalla). */
+export const TIPO_ADELANTE: ("adelante" | "atras")[] = ["adelante"];
+

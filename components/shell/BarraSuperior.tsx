@@ -2,6 +2,8 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { tipoSalto } from "@/lib/nav";
 import { ChevronDown, ClipboardList } from "lucide-react";
 import { tr } from "@/lib/i18n";
 import type { Obra } from "@/lib/types";
@@ -24,11 +26,16 @@ export function BarraSuperior({
   onElegirObra: () => void;
 }) {
   const cerrada = obra?.activa === false;
+  const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-30 bg-fondo/85 px-4 pb-2.5 pt-[calc(0.625rem+env(safe-area-inset-top))] backdrop-blur-md md:px-6">
+    <header
+      className="sticky top-0 z-30 bg-fondo/85 px-4 pb-2.5 pt-[calc(0.625rem+env(safe-area-inset-top))] backdrop-blur-md md:px-6"
+      style={{ viewTransitionName: "cabecera" }}
+    >
       <div className="mx-auto flex max-w-3xl items-center gap-2.5">
         <Link
           href="/"
+          transitionTypes={tipoSalto(pathname, "/")}
           aria-label={tr("Ir a inicio")}
           className="-m-1 inline-flex size-11 shrink-0 items-center justify-center rounded-[10px] md:hidden"
         >
@@ -55,6 +62,7 @@ export function BarraSuperior({
         {gestiona && (
           <Link
             href="/resumen"
+            transitionTypes={tipoSalto(pathname, "/resumen")}
             aria-label={tr("Resumen mensual")}
             className="vidrio-tesela inline-flex size-11 shrink-0 items-center justify-center rounded-[8px] hover:brightness-110"
           >

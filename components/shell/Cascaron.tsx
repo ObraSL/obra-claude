@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { usePathname } from "next/navigation";
 import { Building2, RefreshCw } from "lucide-react";
 import { tr } from "@/lib/i18n";
@@ -78,7 +78,18 @@ export function Cascaron({ children }: { children: React.ReactNode }) {
           ) : (
             <Refresco>
               <div className="mx-auto w-full max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-3 md:px-6 md:pb-10 md:pt-6">
-                {children}
+                {/* Al cambiar de pantalla, la de salida y la de entrada se deslizan
+                    según el tipo de salto de <Link> (lib/nav.ts · tipoSalto); sin tipo
+                    (p. ej. «atrás» del navegador) solo hay un fundido corto. Las
+                    reglas visuales están en globals.css («Transiciones»). */}
+                <ViewTransition
+                  key={pathname}
+                  enter={{ adelante: "pag-adelante", atras: "pag-atras", default: "pag-fundido" }}
+                  exit={{ adelante: "pag-adelante", atras: "pag-atras", default: "pag-fundido" }}
+                  default="none"
+                >
+                  <div>{children}</div>
+                </ViewTransition>
               </div>
             </Refresco>
           )}

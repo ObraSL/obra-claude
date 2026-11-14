@@ -2,9 +2,10 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { LogOut } from "lucide-react";
 import { tr } from "@/lib/i18n";
-import { rutaActiva, type NavItem } from "@/lib/nav";
+import { rutaActiva, tipoSalto, type NavItem } from "@/lib/nav";
 import { Logo } from "@/components/marca/Logo";
 
 /**
@@ -20,6 +21,7 @@ export function BarraInferior({ items, pathname }: { items: NavItem[]; pathname:
     <nav
       aria-label={tr("Navegación principal")}
       className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),12px)] md:hidden"
+      style={{ viewTransitionName: "barra-inferior" }}
     >
       <ul
         className={clsx(
@@ -30,27 +32,39 @@ export function BarraInferior({ items, pathname }: { items: NavItem[]; pathname:
           const activo = rutaActiva(item.href, pathname);
           const Icono = item.icon;
           const etiqueta = tr(item.label);
+          // Con texto, cada destino mide lo que mide su palabra (no partes
+          // iguales): «Налаштування» es ×1,7 más largo que «Ajustes» (T-39)
+          // y así cabe entero a 320 px, sin truncar ni partir.
+          const enlace = (
+            <Link
+              href={item.href}
+              transitionTypes={tipoSalto(pathname, item.href)}
+              aria-label={conTexto ? undefined : etiqueta}
+              aria-current={activo ? "page" : undefined}
+              className={clsx(
+                "flex min-h-12 w-full min-w-11 flex-col items-center justify-center gap-0.5 rounded-[11px] px-1 transition-colors",
+                activo ? "bg-sup-honda text-sobre-honda" : "text-tinta hover:bg-white/10"
+              )}
+            >
+              <Icono size={22} strokeWidth={1.8} aria-hidden />
+              {conTexto && (
+                <span className="whitespace-nowrap text-center text-[0.65625rem] font-medium leading-[1.15] tracking-[-0.01em]">
+                  {etiqueta}
+                </span>
+              )}
+            </Link>
+          );
           return (
-            // Con texto, cada destino mide lo que mide su palabra (no partes
-            // iguales): «Налаштування» es ×1,7 más largo que «Ajustes» (T-39)
-            // y así cabe entero a 320 px, sin truncar ni partir.
             <li key={item.href} className={clsx("flex min-w-0 justify-center", conTexto ? "flex-auto" : "flex-1")}>
-              <Link
-                href={item.href}
-                aria-label={conTexto ? undefined : etiqueta}
-                aria-current={activo ? "page" : undefined}
-                className={clsx(
-                  "flex min-h-12 w-full min-w-11 flex-col items-center justify-center gap-0.5 rounded-[11px] px-1 transition-colors",
-                  activo ? "bg-sup-honda text-sobre-honda" : "text-tinta hover:bg-white/10"
-                )}
-              >
-                <Icono size={22} strokeWidth={1.8} aria-hidden />
-                {conTexto && (
-                  <span className="whitespace-nowrap text-center text-[0.65625rem] font-medium leading-[1.15] tracking-[-0.01em]">
-                    {etiqueta}
-                  </span>
-                )}
-              </Link>
+              {activo ? (
+                // El destino activo tiene nombre: al navegar, su tesela (con su icono) se
+                // desliza hasta el nuevo destino en lugar de apagarse aquí y encenderse allí.
+                <ViewTransition name="nav-activo" share="morph" default="none">
+                  {enlace}
+                </ViewTransition>
+              ) : (
+                enlace
+              )}
             </li>
           );
         })}
@@ -85,6 +99,7 @@ export function BarraLateral({
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  transitionTypes={tipoSalto(pathname, item.href)}
                   aria-current={activo ? "page" : undefined}
                   className={clsx(
                     "flex min-h-11 items-center gap-3 rounded-boton px-3 text-base transition-colors",

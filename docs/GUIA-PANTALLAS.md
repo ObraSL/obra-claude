@@ -121,3 +121,11 @@ Forma: radios `rounded-boton` (6) · `rounded-[10px]` (bloques interiores) · `r
 2. Informe corto: archivos creados; consultas nuevas añadidas (si alguna); **textos nuevos** que no
    existían en v1 (con propuesta uk/en); cada defecto de v1 (DIS-xx de `ENTREGA/00-inventario.md` §6)
    que hayas corregido y cómo; cualquier cosa de v1 que no hayas podido reproducir exactamente.
+
+## Transiciones entre pantallas (D-13)
+
+- El armazón (`Cascaron`) ya envuelve cada pantalla en un `<ViewTransition key={pathname}>`: **una pantalla nueva no tiene que hacer nada** para deslizarse al entrar y salir.
+- Un `<Link>` a otra pantalla lleva `transitionTypes={tipoSalto(pathname, href)}` (o `TIPO_ADELANTE` desde Inicio). Sin tipo se ve solo un fundido.
+- Un elemento que «viaja» entre dos pantallas (como la foto o la cifra de avance) se envuelve en `<ViewTransition name="…" share="morph" default="none">` **en las dos**. El nombre ha de ser **único en cada pantalla**: dos elementos con el mismo nombre en la misma página cancelan la transición entera.
+- Cabecera y barra inferior llevan `viewTransitionName` fijo (son el ancla); no pongas nombres nuevos a cosas fijas.
+- Para ver el movimiento a cámara lenta en el navegador: `document.documentElement.style.setProperty('--vt-k','12')` antes de navegar.
