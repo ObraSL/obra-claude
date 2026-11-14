@@ -1,42 +1,35 @@
 # PROGRESO — Control de Obra v2 · Agente A
 
-> Una sesión nueva empieza leyendo ESTE archivo. Luego `_pack/MASTER-PROMPT.md`,
-> `_pack/ESPECIFICACION-ESTRUCTURA.md`, `_pack/TRAMPAS-Y-LIMITES-TECNICOS.md`, `ENTREGA/DECISIONES.md`.
+> Una sesión nueva empieza leyendo ESTE archivo. Luego `docs/GUIA-PANTALLAS.md` (reglas para pantallas),
+> `ENTREGA/DECISIONES.md` y, si hace falta, `_pack/MASTER-PROMPT.md` + `ESPECIFICACION-ESTRUCTURA.md`.
 
 ## Datos fijos
-- Agente: **A**. Espacio de trabajo: `C:\Projects\apps\claude` (D-01).
-- **Nunca** abrir `C:\Projects\apps\antigravity` (el otro agente) ni tocar `D:\obra` (solo lectura) ni producción.
-- Referencia v1 congelada: `_ref-v1/` (commit `4ed79ad`, no se versiona).
-- Referencia visual: Dribbble «Construction Management App UI», copiar lo más fiel posible (D-02).
-- Base de datos: **no hay** → motor en memoria + modo demo (D-03, D-08, D-09).
-- Tests: `node _pack/herramientas/correr-tests.mjs`. Motor en memoria: `node --import ./_pack/herramientas/alias-loader.mjs scripts/test-memoria.ts`.
-- Servidor de desarrollo: `.claude/launch.json` en `C:\Projects` → `obra-v2-dev` (puerto 3100). `.env.local` = `NEXT_PUBLIC_DATOS=memoria`, `NEXT_PUBLIC_GALERIA=1`.
+- Agente **A**. Espacio: `C:\Projects\apps\claude` (D-01). **Nunca** abrir `C:\Projects\apps\antigravity` ni tocar `D:\obra`.
+- Sin base de datos: motor en memoria + modo demo (`.env.local`: `NEXT_PUBLIC_DATOS=memoria`, `NEXT_PUBLIC_GALERIA=1`).
+- Servidor: `C:\Projects\.claude\launch.json` → `obra-v2-dev` (puerto 3100). Cuentas demo en /login (contraseña `demo-obra-2026`).
+  En la consola del navegador (solo demo): `await __obraDemo.entrar("marta.salvia@reformas-salvia.invalid")`.
+- Tests: `node _pack/herramientas/correr-tests.mjs` (5 TS + i18n) · `node --import ./_pack/herramientas/alias-loader.mjs scripts/test-memoria.ts` (40 ✓).
 
-## Notas técnicas de Next 16.3.4 (resumen de node_modules/next/dist/docs)
-- `error.tsx` recibe `{ error, retry }` (estable en 16.3). `global-error.tsx` pinta su propio `<html><body>`.
-- `params`/`searchParams` son Promesas; `PageProps<'/x'>`, `LayoutProps<'/x'>` globales.
-- `proxy.ts` (exporta `proxy`), solo runtime Node. `useSearchParams` necesita `<Suspense>`.
-- `next/font/google` variable: sin `weight`. `export const dynamic = "force-dynamic"` sigue valiendo (no usamos cacheComponents).
-- `next build` ya NO imprime «First Load JS»: medir de otra forma (`.next` + analizador o tamaño de chunks).
-- Un módulo con `"use client"` no puede exportar funciones que llame el servidor (por eso `lib/tema.ts` + `lib/tema-provider.tsx`).
+## Hecho (2026-11-14)
+- Fase 0 completa: `00-inventario.md` (122 operaciones, 78 DIS), MATRIZ-PARIDAD esqueleto.
+- Diseño: tokens dos temas, Geist, Edificio, Varillas, CifraAvance, primitivas UI, armazón (barras, selector de obra, refresco).
+- Datos: `lib/datos/memoria` (motor + semilla), `lib/datos/consultas` (112), contextos, puertas ACC-08.
+- Pantallas terminadas y vistas en el navegador (375 px, uk): landing, login, Mis horas, cuadrilla + corregir horas,
+  Inicio gestor/trabajador, Planificación (Gantt + Excel), Gastos, Vehículos, Notas, Dinero, Resumen.
+- API `/api/alta/*`, `/api/stripe/webhook` (copiadas de v1), `error.tsx`, `global-error.tsx`.
 
-## Estado por fase
-
-| Fase | Estado | Notas |
-|---|---|---|
-| 0 Estudio | ✅ | `00-inventario.md` (122 operaciones de datos, 78 discrepancias DIS-xx) + anexos `_inventario/A–D`. MATRIZ-PARIDAD esqueleto (121 IDs + 6 Q + 5 FIX + 45 T). |
-| 1 Diseño | 🟡 | `01-diseno/concepto.md`, `identidad.md` (tokens con contraste medido). Tokens en `app/globals.css` (dos temas). Piezas firma: `components/marca/Edificio.tsx`, `Varillas.tsx`, `Logo.tsx`. Vista viva: `/galeria/identidad`. |
-| 2 Port del sistema | 🟡 | Dorados copiados; 5/5 tests TS verdes. `lib/datos/db.ts` (tipo Db + helper `r`). **En curso (ayudantes Sonnet):** `lib/datos/memoria/` (motor en memoria + semilla + test) y `lib/datos/consultas/` (consultas exactas de v1). |
-| 3 Integración | 🟡 | Primitivas UI listas: `components/ui/` (Boton, BotonIcono, Cargando, Panel, Etiqueta, Hoja, Campo/Entrada/Selector/AreaTexto/EntradaHora, Aviso, Vacio, NavDia/NavMes/FiltroMes, Interruptor/Segmentos/BorrarDosPasos, SelectorIdioma). Shell: `components/shell/` (BarraInferior, BarraLateral, BarraSuperior, SelectorObra/FormObraNueva, Refresco + useEnRefresco). `lib/nav.ts` portado. |
-| 4 Verificación | ⏳ | |
-| 5 Entrega | ⏳ | |
-
-## Siguiente paso exacto
-1. Cuando terminen los ayudantes: revisar `lib/datos/memoria` (correr su test) y `lib/datos/consultas` (tsc).
-2. `lib/datos/provider.tsx` (DatosProvider/useDb; memoria con import dinámico) + `lib/datos/demo.ts` (cliente demo persistido en localStorage).
-3. Contextos `lib/miembro-context.tsx`, `lib/obra-context.tsx`, `lib/use-session.ts` sobre `useDb()`; puertas (AuthGate, AccesoGate, Pendiente, Suscripción, AvisoControl); `app/(dashboard)/layout.tsx` + Shell.
-4. Pantallas: Fichajes (trabajador + cuadrilla + corrección) → Inicio (gestor + trabajador) → Login/landing → resto.
-5. Textos nuevos usados hasta ahora (añadir a uk.ts/en.ts): «Cargando…», «Borrar {campo}», «Mes anterior», «Mes siguiente», «Navegación principal», «Activa», «Cerrada», «Obra actual», «Sí, borrar».
+## Falta (por orden)
+1. **Ajustes**: piezas hechas en `components/pantallas/ajustes/` (Accesos, SoporteAcceso, SeccionObras,
+   SeccionListaActivable, HojaConfigurarObra, HojaEliminarObra, SelectorTema). Falta: `Ajustes.tsx` (contenedor:
+   gestor/trabajador, orden AJU-01, jornada 1–24, jefe ve todas, módulos, obras, trabajadores, vehículos, tema,
+   cerrar sesión), `app/(dashboard)/ajustes/page.tsx`. Ver v1 `_ref-v1/app/(dashboard)/ajustes/page.tsx`.
+2. **/alta, /alta/ok, /reset-password, /admin** (no empezadas; brief completo en el historial: mismo patrón que /login).
+3. **i18n**: `node scripts/claves-i18n.js` → añadir a `lib/i18n/uk.ts` y `en.ts` todos los textos nuevos.
+4. `npm run build` + `npm run lint` en verde; iconos PWA y manifest con la marca nueva (`scripts/generar-iconos.mjs`).
+5. **Galería `/galeria`** (idioma, actor, módulos, estado, marcos 320/375/430/768/1280) sobre el motor en memoria.
+6. **Scripts QA** (desbordamiento, objetivos ≥ 44 px, errores de consola, capturas) — Playwright no instalado.
+7. Fase 4: MATRIZ-PARIDAD con evidencia, pasada adversaria. Fase 5: README, COMO-PROBARLO, INFORME-FINAL-UA,
+   métricas, dependencias, checksums de dorados, capturas, `01-diseno/RESUMEN-UA.md`.
 
 ## Bloqueos
-- Ninguno. Base de datos de pruebas pendiente de la dueña (no bloquea).
+- Límite de uso de los ayudantes Sonnet (se reinicia cada 5 h). Base de datos de pruebas pendiente de la dueña.
