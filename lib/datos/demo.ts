@@ -1,5 +1,6 @@
 import type { Db } from "./db";
 import {
+  CLAVE_DEMO,
   crearAlmacen,
   crearClienteMemoria,
   deserializarAlmacen,
@@ -51,6 +52,23 @@ export function dbDemo(): Db {
   // Entrar y salir también cambian el almacén (la sesión) sin pasar por alCambiar.
   cliente.auth.onAuthStateChange(() => guardarLuego());
   window.addEventListener("pagehide", guardar);
+
+  // Ayuda para las pruebas automáticas y la revisión (solo existe en modo
+  // demo): cambiar de cuenta ficticia sin pasar por el formulario.
+  const db = cliente;
+  (window as unknown as { __obraDemo?: unknown }).__obraDemo = {
+    entrar: async (email: string) => {
+      await db.auth.signOut();
+      const r = await db.auth.signInWithPassword({ email, password: CLAVE_DEMO });
+      guardar();
+      return r.error?.message ?? null;
+    },
+    salir: async () => {
+      await db.auth.signOut();
+      guardar();
+    },
+    reiniciar: reiniciarDemo,
+  };
   return cliente;
 }
 

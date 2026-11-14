@@ -32,7 +32,10 @@ export function BarraInferior({ items, pathname }: { items: NavItem[]; pathname:
           const Icono = item.icon;
           const etiqueta = tr(item.label);
           return (
-            <li key={item.href} className="flex min-w-0 flex-1 justify-center">
+            // Con texto, cada destino mide lo que mide su palabra (no partes
+            // iguales): «Налаштування» es ×1,7 más largo que «Ajustes» (T-39)
+            // y así cabe entero a 320 px, sin truncar ni partir.
+            <li key={item.href} className={clsx("flex min-w-0 justify-center", conTexto ? "flex-auto" : "flex-1")}>
               <Link
                 href={item.href}
                 aria-label={conTexto ? undefined : etiqueta}
@@ -44,7 +47,9 @@ export function BarraInferior({ items, pathname }: { items: NavItem[]; pathname:
               >
                 <Icono size={22} strokeWidth={1.8} aria-hidden />
                 {conTexto && (
-                  <span className="max-w-full truncate text-[0.6875rem] font-medium leading-tight">{etiqueta}</span>
+                  <span className="whitespace-nowrap text-center text-[0.65625rem] font-medium leading-[1.15] tracking-[-0.01em]">
+                    {etiqueta}
+                  </span>
                 )}
               </Link>
             </li>
