@@ -6,7 +6,7 @@ import { fmtDate, fmtEUR } from "@/lib/format";
 import { avanceObraExacto, estadoTarea, rangoObra } from "@/lib/gantt";
 import { suma } from "@/lib/dinero";
 import type { Tarea } from "@/lib/types";
-import { Edificio } from "@/components/marca/Edificio";
+import { FotoObra } from "@/components/marca/FotoObra";
 import { Panel } from "@/components/ui/Panel";
 import { Boton } from "@/components/ui/Boton";
 import { Aviso } from "@/components/ui/Aviso";
@@ -47,8 +47,8 @@ export function VistaPlanificacion(p: PropsPlanificacion) {
   return (
     <div className="grid gap-4">
       <header>
-        <Edificio avance={exacto} className="mx-auto block h-64 w-full" titulo={tr("Avance de la obra")} />
-        <h1 className="mt-2 text-peq font-medium">{tr("Avance de la obra")}</h1>
+        <FotoObra className="-mx-4 h-64 md:mx-0 md:h-72 md:rounded-panel" />
+        <h1 className="relative -mt-6 text-peq font-medium">{tr("Avance de la obra")}</h1>
         <p className="cifras text-gigante font-light tracking-[-0.04em]" data-testid="avance-obra">
           {fmtAvance(exacto)}%
         </p>

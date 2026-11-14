@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { tr } from "@/lib/i18n";
-import { Edificio } from "@/components/marca/Edificio";
+import { FotoObra } from "@/components/marca/FotoObra";
 import { Varillas, type Varilla } from "@/components/marca/Varillas";
 import { Logo } from "@/components/marca/Logo";
 import { SelectorIdioma } from "@/components/ui/SelectorIdioma";
@@ -31,7 +31,7 @@ export function Landing() {
 
       {/* La obra: ocupa lo que sobre y encoge en móviles bajos */}
       <div className="relative min-h-0 flex-1">
-        <Edificio avance={AVANCE_DEMO} className="mx-auto block h-full w-full" />
+        <FotoObra prioritaria className="-mx-5 h-full" />
       </div>
 
       <section

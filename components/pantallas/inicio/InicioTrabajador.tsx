@@ -13,8 +13,8 @@ import { currentMonth, monthBounds, monthLabel, todayStr } from "@/lib/format";
 import { fmtHoras, totalesFichajes } from "@/lib/horas";
 import { esFalloDeRed } from "@/lib/offline-fichajes";
 import { useEnRefresco } from "@/components/shell/Refresco";
-import { Edificio } from "@/components/marca/Edificio";
-import { CifraAvance, partesAvance } from "@/components/marca/CifraAvance";
+import { FotoObra } from "@/components/marca/FotoObra";
+import { CifraAvance } from "@/components/marca/CifraAvance";
 import { Panel } from "@/components/ui/Panel";
 import { Aviso } from "@/components/ui/Aviso";
 import { Dato } from "./VistaInicioGestor";
@@ -78,8 +78,8 @@ export function VistaInicioTrabajador(p: PropsInicioTrabajador) {
 
       {p.avance != null && (
         <section aria-label={tr("Avance de la obra")}>
-          <Edificio avance={p.avance} className="mx-auto block h-48 w-full" titulo={`${tr("Avance de la obra")}: ${partesAvance(p.avance).texto}`} />
-          <Panel tono="honda" className="-mt-2">
+          <FotoObra className="-mx-4 h-56 md:mx-0 md:h-64 md:rounded-panel" />
+          <Panel tono="honda" className="relative -mt-8">
             <h2 className="text-peq">{tr("Avance de la obra")}</h2>
             <CifraAvance valor={p.avance} className="mt-2" />
           </Panel>

@@ -7,8 +7,8 @@ import type { LucideIcon } from "lucide-react";
 import { tr, trJsx, trN } from "@/lib/i18n";
 import { fmtDate, fmtEUR, fmtEURCorto } from "@/lib/format";
 import type { Tarea } from "@/lib/types";
-import { Edificio } from "@/components/marca/Edificio";
-import { CifraAvance, partesAvance } from "@/components/marca/CifraAvance";
+import { FotoObra } from "@/components/marca/FotoObra";
+import { CifraAvance } from "@/components/marca/CifraAvance";
 import { Varillas, type Varilla } from "@/components/marca/Varillas";
 import { MiniGantt } from "@/components/planificacion/MiniGantt";
 import { Panel } from "@/components/ui/Panel";
@@ -90,10 +90,10 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
               {tr("{n} con retraso", { n: p.retrasadas })}
             </Etiqueta>
           )}
-          <Edificio avance={p.avance} className="mx-auto block h-56 w-full md:h-64" titulo={`${tr("Avance de la obra")}: ${partesAvance(p.avance).texto}`} />
+          <FotoObra prioritaria className="-mx-4 h-72 md:mx-0 md:h-80 md:rounded-panel" />
         </div>
 
-        <Panel tono="honda" className="-mt-2">
+        <Panel tono="honda" className="relative -mt-8">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h2 className="text-peq">{tr("Avance de la obra")}</h2>

@@ -53,7 +53,7 @@ app/                      rutas (App Router). (dashboard) = la app con sesión
   galeria/identidad/      hoja de identidad viva (solo con NEXT_PUBLIC_GALERIA=1)
 components/
   ui/                     primitivas: Boton, Panel, Hoja, Campo, Aviso, Etiqueta, Vacio…
-  marca/                  las piezas firma: Edificio, Varillas, CifraAvance, Logo
+  marca/                  las piezas firma: FotoObra, Varillas, CifraAvance, Logo (y Edificio, el dibujo, solo en la hoja de identidad)
   shell/                  armazón: barras, selector de obra, tirar para recargar
   puertas/                pantallas-puerta y la cadena de permisos (ACC-08)
   pantallas/<area>/       por pantalla: Contenedor.tsx (datos) + VistaX.tsx (solo props)
@@ -86,3 +86,7 @@ props y por eso se puede pintar con datos falsos. **Todas las consultas** pasan 
 
 Detalle de cada trampa aprendida: `_pack/TRAMPAS-Y-LIMITES-TECNICOS.md`.
 La especificación congelada de qué hace el producto: `_pack/ESPECIFICACION-ESTRUCTURA.md`.
+
+## Créditos
+
+Foto de portada: Adrian Cogua, [Unsplash License](https://unsplash.com/license). Detalle en `ENTREGA/CREDITOS-FOTO.md`.

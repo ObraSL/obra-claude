@@ -25,6 +25,9 @@
 - Entregables escritos: `README.md`, `COMO-PROBARLO.md`, `INFORME-FINAL-UA.md`, `dependencias.md`,
   `dorados-checksums.md` (7 dorados tocados, todos justificados), `cambios-en-dorados.md`.
 
+## Cambio posterior (2026-11-14)
+- **Portada = foto real** en lugar del dibujo isométrico (D-11, `FotoObra`, créditos en `CREDITOS-FOTO.md`). Verificado en el navegador a 320/375 px y 1280 px, temas salvia y claro; sin desbordes ni errores de consola.
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.
