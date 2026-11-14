@@ -18,18 +18,25 @@
   Inicio gestor/trabajador, Planificación (Gantt + Excel), Gastos, Vehículos, Notas, Dinero, Resumen.
 - API `/api/alta/*`, `/api/stripe/webhook` (copiadas de v1), `error.tsx`, `global-error.tsx`.
 
-## Falta (por orden)
-1. **Ajustes**: piezas hechas en `components/pantallas/ajustes/` (Accesos, SoporteAcceso, SeccionObras,
-   SeccionListaActivable, HojaConfigurarObra, HojaEliminarObra, SelectorTema). Falta: `Ajustes.tsx` (contenedor:
-   gestor/trabajador, orden AJU-01, jornada 1–24, jefe ve todas, módulos, obras, trabajadores, vehículos, tema,
-   cerrar sesión), `app/(dashboard)/ajustes/page.tsx`. Ver v1 `_ref-v1/app/(dashboard)/ajustes/page.tsx`.
-2. **/alta, /alta/ok, /reset-password, /admin** (no empezadas; brief completo en el historial: mismo patrón que /login).
-3. **i18n**: `node scripts/claves-i18n.js` → añadir a `lib/i18n/uk.ts` y `en.ts` todos los textos nuevos.
-4. `npm run build` + `npm run lint` en verde; iconos PWA y manifest con la marca nueva (`scripts/generar-iconos.mjs`).
-5. **Galería `/galeria`** (idioma, actor, módulos, estado, marcos 320/375/430/768/1280) sobre el motor en memoria.
-6. **Scripts QA** (desbordamiento, objetivos ≥ 44 px, errores de consola, capturas) — Playwright no instalado.
-7. Fase 4: MATRIZ-PARIDAD con evidencia, pasada adversaria. Fase 5: README, COMO-PROBARLO, INFORME-FINAL-UA,
-   métricas, dependencias, checksums de dorados, capturas, `01-diseno/RESUMEN-UA.md`.
+## Cerrado el 2026-11-14 (la dueña paró aquí: el diseño ya se puede juzgar)
+- **Ajustes** terminado (las dos variantes, tema nuevo incluido) y `/ajustes` enlazado: ya no hay enlace muerto.
+- **i18n 537/537** en uk y en: no queda español suelto en las pantallas ucranianas.
+- `npm run build` ✔ (16 rutas) · `npm run lint` ✔ **0 errores** (v1 tiene 4) · 5 tests + i18n ✔ · 40 pruebas del motor ✔.
+- Entregables escritos: `README.md`, `COMO-PROBARLO.md`, `INFORME-FINAL-UA.md`, `dependencias.md`,
+  `dorados-checksums.md` (7 dorados tocados, todos justificados), `cambios-en-dorados.md`.
+
+## Falta (nada de esto obliga a rehacer lo hecho)
+1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
+   Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.
+   Las rutas de API que necesitan (`app/api/alta/*`) ya están portadas y funcionando.
+2. **Galería `/galeria`** completa (idioma, actor, módulos, estado, marcos 320/375/430/768/1280)
+   sobre el motor en memoria. Hoy solo existe `/galeria/identidad`.
+3. **Scripts QA** con Playwright (desbordamiento, objetivos ≥ 44 px, errores de consola, capturas).
+   Comprobado a mano en el navegador en todas las pantallas; con script, no.
+4. **MATRIZ-PARIDAD.md** con evidencia fila a fila + pasada adversaria (Fase 4).
+5. Iconos PWA y manifest con la marca nueva (`scripts/generar-iconos.mjs`), `metricas.md`,
+   `capturas/`, `01-diseno/RESUMEN-UA.md`.
+6. Con base de datos de pruebas: SQL de seguridad (`supabase/prueba-*.sql`) y `scripts/seed-dev.*`.
 
 ## Bloqueos
 - Límite de uso de los ayudantes Sonnet (se reinicia cada 5 h). Base de datos de pruebas pendiente de la dueña.
