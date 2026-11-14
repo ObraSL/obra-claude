@@ -74,3 +74,12 @@ error exactos, que una empresa no vea a la otra…).
 npm run build   # tiene que terminar sin errores
 npm run lint    # 0 errores (el sitio viejo tiene 4)
 ```
+
+## Ver la app como móvil desde el ordenador
+
+- **`/galeria/movil`** (solo con `NEXT_PUBLIC_GALERIA=1`, como el resto de `/galeria`): la app dentro de una ventana del tamaño de un
+  móvil (iPhone SE, iPhone 15, Pro Max, Android). Comparte la sesión de demo, así que se entra una vez y vale para todo.
+  Es una herramienta de revisión, no parte del producto.
+- Sin esa página: en Chrome/Edge, `F12` → `Ctrl+Shift+M` (modo dispositivo) y elegir un iPhone; en el navegador integrado de Claude,
+  menú **Viewport → Mobile**.
+

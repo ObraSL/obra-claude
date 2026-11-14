@@ -18,7 +18,7 @@ npm run dev          # http://localhost:3100
 | Variable | Para qué |
 |---|---|
 | `NEXT_PUBLIC_DATOS=memoria` | **Modo demo**: la app entera funciona sin base de datos, con dos empresas inventadas. Es lo que trae el proyecto por defecto |
-| `NEXT_PUBLIC_GALERIA=1` | Abre `/galeria/identidad` (hoja de identidad viva). Fuera de desarrollo, `/galeria` devuelve 404 |
+| `NEXT_PUBLIC_GALERIA=1` | Abre `/galeria/identidad` (hoja de identidad viva) y `/galeria/movil` (la app en una ventana del tamaño de un móvil, para revisarla desde el ordenador). Fuera de desarrollo, `/galeria` devuelve 404 |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase real (proyecto de **pruebas**, nunca producción) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Solo en el servidor: rutas de pago. Nunca con prefijo `NEXT_PUBLIC_` |
 | `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID`, `STRIPE_WEBHOOK_SECRET` | Alta de empresa con tarjeta (**solo modo test**). Sin ellas, `/alta` dice que todavía no está abierta |
