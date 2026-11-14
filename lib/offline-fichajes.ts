@@ -53,14 +53,20 @@ export function esFalloDeRed(error: { message?: string } | null | undefined): bo
 
 export function useFichajesPendientes(
   supabase: SupabaseClient,
-  onConfirmado: (data: Fichaje) => void
+  onConfirmado: (data: Fichaje) => void,
+  // v2 (FIC-08, DIS-11): un fichaje en cola rechazado por una regla de
+  // negocio se descartaba sin decir nada; ahora se avisa para enseñar el
+  // mensaje del servidor. Opcional: sin él, todo funciona como en v1.
+  onRechazado?: (item: FichajePendiente, mensaje: string) => void
 ) {
   const [pendientes, setPendientes] = useState<FichajePendiente[]>([]);
   const onConfirmadoRef = useRef(onConfirmado);
+  const onRechazadoRef = useRef(onRechazado);
   const reintentando = useRef(false);
 
   useEffect(() => {
     onConfirmadoRef.current = onConfirmado;
+    onRechazadoRef.current = onRechazado;
   });
 
   useEffect(() => {
@@ -114,7 +120,9 @@ export function useFichajesPendientes(
         return true;
       }
 
-      return !esFalloDeRed(error);
+      if (esFalloDeRed(error)) return false;
+      if (error?.message) onRechazadoRef.current?.(item, error.message);
+      return true;
     },
     [supabase]
   );
