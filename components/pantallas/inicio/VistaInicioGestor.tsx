@@ -47,7 +47,7 @@ export type PropsInicioGestor = {
 };
 
 /** Regla del presupuesto en 40 varillas: blancas = gastado, lima = queda, coral = lo que se pasa (momento firma nº 3). */
-function varillasPresupuesto(pct: number): Varilla[] {
+export function varillasPresupuesto(pct: number): Varilla[] {
   const N = 40;
   if (pct <= 100) {
     const gastadas = Math.round((pct / 100) * N);
