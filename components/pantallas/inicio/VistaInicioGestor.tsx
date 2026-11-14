@@ -85,15 +85,23 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
       {/* Portada: la obra creciendo con su avance real, y debajo, pegado, el panel de datos. */}
       <section aria-label={tr("Avance de la obra")}>
         <div className="relative">
-          {p.retrasadas > 0 && (
-            <Etiqueta tono="coral" className="absolute right-0 top-1 z-10">
+          {/* Como el «On Track» de la referencia: con retraso, coral y su número; sin retrasos (y con plan), cristal. */}
+          {p.retrasadas > 0 ? (
+            <Etiqueta tono="coral" className="absolute right-0 top-3 z-10">
               {tr("{n} con retraso", { n: p.retrasadas })}
             </Etiqueta>
+          ) : (
+            !p.cargando &&
+            p.tareas.length > 0 && (
+              <Etiqueta tono="vidrio" className="absolute right-0 top-3 z-10">
+                {tr("En plazo")}
+              </Etiqueta>
+            )
           )}
-          <FotoObra prioritaria className="-mx-4 h-72 md:mx-0 md:h-80 md:rounded-panel" />
+          <FotoObra prioritaria className="-mx-4 h-80 md:mx-0 md:h-96 md:rounded-panel" />
         </div>
 
-        <Panel tono="honda" className="relative -mt-8">
+        <Panel tono="honda" vidrio className="relative -mt-20">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h2 className="text-peq">{tr("Avance de la obra")}</h2>

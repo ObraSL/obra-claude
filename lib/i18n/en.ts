@@ -622,6 +622,7 @@ export const en: Record<string, string> = {
   "Pago sin confirmar": "Payment not confirmed",
   "Comprobando el pago…": "Checking the payment…",
   // --- v2: textos nuevos de esta versión ---
+  "En plazo": "On track",
   "Acceso total, corrige horas, dinero y ajustes.": "Full access: corrects hours, money and settings.",
   "Accesos rápidos": "Quick links",
   "Balance": "Balance",

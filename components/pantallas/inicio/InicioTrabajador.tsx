@@ -78,8 +78,8 @@ export function VistaInicioTrabajador(p: PropsInicioTrabajador) {
 
       {p.avance != null && (
         <section aria-label={tr("Avance de la obra")}>
-          <FotoObra className="-mx-4 h-56 md:mx-0 md:h-64 md:rounded-panel" />
-          <Panel tono="honda" className="relative -mt-8">
+          <FotoObra className="-mx-4 h-64 md:mx-0 md:h-72 md:rounded-panel" />
+          <Panel tono="honda" vidrio className="relative -mt-16">
             <h2 className="text-peq">{tr("Avance de la obra")}</h2>
             <CifraAvance valor={p.avance} className="mt-2" />
           </Panel>

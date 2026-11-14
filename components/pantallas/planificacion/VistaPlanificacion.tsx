@@ -13,6 +13,7 @@ import { Aviso } from "@/components/ui/Aviso";
 import { Vacio } from "@/components/ui/Vacio";
 import { CargandoBloque } from "@/components/ui/Cargando";
 import { Gantt } from "@/components/planificacion/Gantt";
+import { LineaTiempo } from "@/components/planificacion/LineaTiempo";
 
 export type PropsPlanificacion = {
   cargando: boolean;
@@ -106,6 +107,7 @@ export function VistaPlanificacion(p: PropsPlanificacion) {
             </div>
           )}
 
+          <LineaTiempo tareas={p.tareas} hoy={p.hoy} />
           <Gantt tareas={p.tareas} hoy={p.hoy} onElegir={p.onElegir} />
         </Panel>
       )}

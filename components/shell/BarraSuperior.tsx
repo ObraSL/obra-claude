@@ -56,7 +56,7 @@ export function BarraSuperior({
           <Link
             href="/resumen"
             aria-label={tr("Resumen mensual")}
-            className="inline-flex size-11 shrink-0 items-center justify-center rounded-[8px] bg-sup-alta/70 hover:brightness-110"
+            className="vidrio-tesela inline-flex size-11 shrink-0 items-center justify-center rounded-[8px] hover:brightness-110"
           >
             <ClipboardList size={20} strokeWidth={1.8} aria-hidden />
           </Link>

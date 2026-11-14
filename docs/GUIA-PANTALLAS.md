@@ -95,6 +95,8 @@ Forma: radios `rounded-boton` (6) · `rounded-[10px]` (bloques interiores) · `r
 - `@/components/marca/Varillas`: `Varillas` — el gráfico de la casa (barras verticales finas; cada
   varilla es un dato real; va dentro de un panel hondo; lleva `resumen` accesible).
 - `@/components/marca/Edificio`: el edificio isométrico que crece con el avance (0–100).
+- Cristal: clases `.vidrio` (barras flotantes), `.vidrio-tesela` (iconos sobre el lienzo) y `<Panel tono="honda" vidrio>` (panel que monta sobre la foto). Solo donde algo pasa por detrás: el desenfoque cuesta en móviles flojos.
+- `@/components/planificacion/LineaTiempo`: la escalera de fases de la referencia (decorativa; va encima del Gantt).
 - `@/components/marca/FotoObra`: la foto de portada (decorativa, se funde con el lienzo; el tamaño y el sangrado
   se dan por `className`, p. ej. `-mx-4 h-72`). Es lo que usan las pantallas en lugar de `Edificio` (D-11).
 - `@/components/pantallas/fichajes/VistaMisHoras`: `HojaTexto` (hoja con un solo campo).

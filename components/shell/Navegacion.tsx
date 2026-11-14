@@ -23,8 +23,7 @@ export function BarraInferior({ items, pathname }: { items: NavItem[]; pathname:
     >
       <ul
         className={clsx(
-          "pointer-events-auto mx-auto flex max-w-md items-stretch justify-between gap-1 rounded-[16px] p-1.5",
-          "bg-velo shadow-[0_10px_30px_-12px_rgb(20_22_19/0.55)] backdrop-blur-md backdrop-saturate-150"
+          "vidrio pointer-events-auto mx-auto flex max-w-md items-stretch justify-between gap-1 rounded-[16px] p-1.5"
         )}
       >
         {items.map((item) => {

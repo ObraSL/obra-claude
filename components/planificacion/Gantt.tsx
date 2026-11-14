@@ -79,7 +79,9 @@ export function Gantt({ tareas, hoy, onElegir }: { tareas: Tarea[]; hoy: string;
   const posHoy = posicionDia(hoy, rango);
 
   return (
-    <div className="relative" data-testid="gantt">
+    // pt-5 (y no mt-5 en la escala): un margen superior del hijo se «escapaba»
+    // por arriba y el rótulo «Hoy» caía encima de los nombres de los meses.
+    <div className="relative pt-5" data-testid="gantt">
       {/* Línea de hoy: cruza todas las tareas para ver de un golpe qué
           debería estar ya terminado y qué no. */}
       {posHoy !== null && (
@@ -97,7 +99,7 @@ export function Gantt({ tareas, hoy, onElegir }: { tareas: Tarea[]; hoy: string;
       )}
 
       {/* Escala de meses */}
-      <div className="relative mt-5 h-5 overflow-hidden text-micro font-medium uppercase tracking-wide text-sobre-honda-2" aria-hidden>
+      <div className="relative h-5 overflow-hidden text-micro font-medium uppercase tracking-wide text-sobre-honda-2" aria-hidden>
         {meses.map((m, i) => (
           <span key={i} className="absolute top-0 w-max leading-5" style={{ left: `${m.izquierda}%` }}>
             {m.texto}

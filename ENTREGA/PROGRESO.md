@@ -28,6 +28,8 @@
 ## Cambio posterior (2026-11-14)
 - **Portada = foto real** en lugar del dibujo isométrico (D-11, `FotoObra`, créditos en `CREDITOS-FOTO.md`). Verificado en el navegador a 320/375 px y 1280 px, temas salvia y claro; sin desbordes ni errores de consola.
 
+- **Cristal + línea de tiempo escalonada + etiqueta «En plazo»** (D-12). i18n 538/538. El rótulo «Hoy» del Gantt ya no pisa los meses.
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.

@@ -16,15 +16,17 @@ type Props = HTMLAttributes<HTMLElement> & {
   tono?: "sup" | "honda";
   como?: "section" | "div" | "article";
   relleno?: "normal" | "compacto" | "ninguno";
+  /** Cristal esmerilado: solo para un panel «honda» que monta sobre la foto (la foto se ve borrosa debajo). */
+  vidrio?: boolean;
 };
 
-export function Panel({ tono = "sup", como = "section", relleno = "normal", className, children, ...resto }: Props) {
+export function Panel({ tono = "sup", como = "section", relleno = "normal", vidrio = false, className, children, ...resto }: Props) {
   const Tag = como;
   return (
     <Tag
       className={clsx(
         "min-w-0 rounded-panel",
-        tono === "sup" ? "bg-sup text-tinta" : "bg-sup-honda text-sobre-honda",
+        tono === "sup" ? "bg-sup text-tinta" : vidrio ? "vidrio-panel text-sobre-honda" : "bg-sup-honda text-sobre-honda",
         relleno === "normal" && "p-4",
         relleno === "compacto" && "p-3",
         className
