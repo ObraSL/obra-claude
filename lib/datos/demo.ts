@@ -61,5 +61,5 @@ export function reiniciarDemo() {
   } catch {
     /* nada */
   }
-  window.location.assign("/");
+  window.location.href = "/";
 }

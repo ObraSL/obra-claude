@@ -10,7 +10,6 @@ import {
   type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
 } from "react";
-import { tr } from "@/lib/i18n";
 
 /**
  * Campos de formulario. Siempre claros (papel) con texto casi negro en los
@@ -86,12 +85,15 @@ export function EntradaHora({
   valor,
   onCambio,
   etiqueta,
+  textoBorrar,
   id: idDado,
   invalido,
 }: {
   valor: string;
   onCambio: (v: string) => void;
   etiqueta: string;
+  /** Nombre accesible del botón × (p. ej. «Quitar la hora de entrada»). */
+  textoBorrar: string;
   id?: string;
   invalido?: boolean;
 }) {
@@ -115,7 +117,7 @@ export function EntradaHora({
           type="button"
           onClick={() => onCambio("")}
           disabled={!valor}
-          aria-label={tr("Borrar {campo}", { campo: etiqueta })}
+          aria-label={textoBorrar}
           className="inline-flex size-12 shrink-0 items-center justify-center rounded-boton bg-campo text-sobre-campo disabled:opacity-35"
         >
           <X size={18} aria-hidden />
