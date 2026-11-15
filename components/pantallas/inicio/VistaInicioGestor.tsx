@@ -3,14 +3,16 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { ArrowUpRight, ChevronRight, Clock3, MapPin, Truck } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Clock3, MapPin, TriangleAlert, Truck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { tr, trJsx, trN } from "@/lib/i18n";
 import { TIPO_ADELANTE } from "@/lib/nav";
 import { fmtDate, fmtEUR, fmtEURCorto } from "@/lib/format";
+import { posicionDia, rangoObra } from "@/lib/gantt";
 import type { Tarea } from "@/lib/types";
 import { FotoObra } from "@/components/marca/FotoObra";
 import { CifraAvance } from "@/components/marca/CifraAvance";
+import { Medidor } from "@/components/marca/Medidor";
 import { Varillas, type Varilla } from "@/components/marca/Varillas";
 import { MiniGantt } from "@/components/planificacion/MiniGantt";
 import { Panel } from "@/components/ui/Panel";
@@ -69,6 +71,12 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
     tono: min === 0 ? "apagado" : i === p.horasDia.length - 1 ? "lima" : "blanco",
   }));
   const signo = p.balance > 0 ? "+" : p.balance < 0 ? "−" : "";
+  // Cuánto del calendario del plan ha pasado (el mismo «hoy» que la línea del Gantt):
+  // antes de empezar 0 %, después de acabar 100 %. Sin plan no hay medidor.
+  const rango = rangoObra(p.tareas);
+  const tiempo = rango ? (p.hoy < rango.desde ? 0 : p.hoy > rango.hasta ? 100 : Math.round(posicionDia(p.hoy, rango) ?? 0)) : null;
+  const avanceEntero = Math.round(p.avance);
+  const conMedidor = p.cargando || tiempo !== null;
 
   return (
     <div className="grid gap-4">
@@ -160,6 +168,54 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
             </div>
           </dl>
         </Panel>
+      </section>
+
+      {/* Como las tarjetas de la referencia: el medidor (avance contra calendario) y, al lado,
+          cuánta gente ha fichado hoy y cuántas tareas van con retraso. Cada tarjeta es
+          un atajo a la pantalla donde se arregla. */}
+      <section aria-label={tr("Avance de la obra")} className="grid grid-cols-2 gap-3">
+        {conMedidor && (
+          <Panel tono="honda" como="div" relleno="compacto" className="flex flex-col justify-center">
+            {tiempo !== null ? (
+              <>
+                <Medidor
+                  avance={p.avance}
+                  tiempo={tiempo}
+                  titulo={`${tr("Avance de la obra")}: ${avanceEntero} % · ${tr("Tiempo transcurrido")}: ${tiempo} %`}
+                  className="mx-auto max-w-[10rem]"
+                />
+                {/* Leyenda: punto lima = el arco (avance); raya blanca = la aguja (tiempo). */}
+                <ul className="cifras mt-1 grid justify-center gap-0.5 text-peq">
+                  <li className="flex items-center gap-1.5">
+                    <span aria-hidden className="size-2.5 shrink-0 rounded-full bg-lima" />
+                    {tr("Avance {a} %", { a: avanceEntero })}
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span aria-hidden className="h-0.5 w-2.5 shrink-0 rounded-full bg-white" />
+                    {tr("Tiempo {t} %", { t: tiempo })}
+                  </li>
+                </ul>
+              </>
+            ) : (
+              <CargandoBloque alto="bloque" />
+            )}
+          </Panel>
+        )}
+        <div className={clsx("grid min-w-0 gap-3", !conMedidor && "col-span-2 grid-cols-2")}>
+          <TarjetaDato
+            href="/fichajes"
+            etiqueta={tr("Fichados hoy")}
+            valor={p.fichadosHoy != null ? String(p.fichadosHoy) : "—"}
+            icono={Clock3}
+          />
+          <TarjetaDato
+            href="/planificacion"
+            etiqueta={tr("Tareas con retraso")}
+            valor={p.tareas.length > 0 || !p.cargando ? String(p.retrasadas) : "—"}
+            icono={TriangleAlert}
+            alerta={p.retrasadas > 0}
+          />
+        </div>
       </section>
 
       {/* El plan en miniatura: de un toque se abre el Gantt completo (en el
@@ -256,10 +312,10 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
         </Panel>
       </Link>
 
-      <div className={clsx("grid gap-3", p.moduloVehiculos ? "grid-cols-2" : "grid-cols-1")}>
-        <Dato etiqueta={tr("Fichados hoy")} valor={p.fichadosHoy != null ? String(p.fichadosHoy) : "—"} icono={Clock3} />
-        {p.moduloVehiculos && <Dato etiqueta={tr("Coches hoy")} valor={p.cochesHoy != null ? String(p.cochesHoy) : "—"} icono={Truck} />}
-      </div>
+      {/* «Fichados hoy» subió a las tarjetas de arriba; aquí queda lo que no tiene sitio allí. */}
+      {p.moduloVehiculos && (
+        <Dato etiqueta={tr("Coches hoy")} valor={p.cochesHoy != null ? String(p.cochesHoy) : "—"} icono={Truck} />
+      )}
 
       <nav aria-label={tr("Accesos rápidos")} className="grid grid-cols-2 gap-3">
         {p.accesos.map((a) => (
@@ -278,7 +334,41 @@ export function VistaInicioGestor(p: PropsInicioGestor) {
   );
 }
 
-/** Un dato suelto del día (Fichados hoy, Coches hoy). */
+/** Tarjeta de dato que es atajo a otra pantalla; en coral si hay algo que atender. */
+function TarjetaDato({
+  href,
+  etiqueta,
+  valor,
+  icono: Icono,
+  alerta = false,
+}: {
+  href: string;
+  etiqueta: string;
+  valor: string;
+  icono: LucideIcon;
+  alerta?: boolean;
+}) {
+  return (
+    <Link href={href} transitionTypes={TIPO_ADELANTE} className="block min-w-0 rounded-panel active:scale-[0.985]">
+      <Panel tono="honda" como="div" relleno="compacto" className="h-full">
+        <p className="flex items-center gap-1.5 text-peq">
+          <Icono size={16} aria-hidden strokeWidth={1.8} className="shrink-0" />
+          <span className="min-w-0 break-words">{etiqueta}</span>
+        </p>
+        <p
+          className={clsx(
+            "cifras mt-1 inline-block text-cifra font-light tracking-[-0.03em]",
+            alerta && "rounded-[6px] bg-coral px-2 text-sobre-coral"
+          )}
+        >
+          {valor}
+        </p>
+      </Panel>
+    </Link>
+  );
+}
+
+/** Un dato suelto del día (Coches hoy). */
 export function Dato({ etiqueta, valor, icono: Icono }: { etiqueta: string; valor: string; icono: LucideIcon }) {
   return (
     <Panel relleno="compacto" como="div" className="min-w-0">

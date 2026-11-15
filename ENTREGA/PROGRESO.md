@@ -32,6 +32,8 @@
 
 - **Transiciones entre pantallas** (D-13): deslizamiento direccional, foto y cifra que se transforman, tesela de la barra que se desliza. Pendiente: probarlo en un iPhone real.
 
+- **Medidor + tarjetas «Fichados hoy» / «Tareas con retraso»** en Inicio del gestor (D-14).
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.

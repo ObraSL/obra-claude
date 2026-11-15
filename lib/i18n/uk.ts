@@ -630,6 +630,10 @@ export const uk: Record<string, string> = {
   "Pago sin confirmar": "Оплату не підтверджено",
   "Comprobando el pago…": "Перевіряю оплату…",
   // --- v2: textos nuevos de esta versión ---
+  "Tareas con retraso": "Роботи з відставанням",
+  "Avance {a} %": "Прогрес {a}%",
+  "Tiempo {t} %": "Час {t}%",
+  "Tiempo transcurrido": "Минуло часу",
   "En plazo": "За планом",
   "Acceso total, corrige horas, dinero y ajustes.": "Повний доступ: виправляє години, гроші й налаштування.",
   "Accesos rápidos": "Швидкі переходи",

@@ -493,3 +493,33 @@ textarea {
     animation-delay: 0s !important;
   }
 }
+
+/* El medidor (components/marca/Medidor.tsx): el arco crece y la aguja se coloca al montar. */
+@keyframes medidor-arco {
+  from {
+    stroke-dasharray: 0 100;
+  }
+  to {
+    stroke-dasharray: var(--fin) 100;
+  }
+}
+@keyframes medidor-aguja {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(var(--ang));
+  }
+}
+.medidor-arco {
+  animation: medidor-arco 800ms var(--ease-obra) 120ms both;
+}
+.medidor-aguja {
+  animation: medidor-aguja 900ms var(--ease-obra) 120ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .medidor-arco,
+  .medidor-aguja {
+    animation: none;
+  }
+}
