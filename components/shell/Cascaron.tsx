@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, ViewTransition } from "react";
 import { usePathname } from "next/navigation";
 import { Building2, RefreshCw } from "lucide-react";
 import { tr } from "@/lib/i18n";
+import { MODO_MEMORIA } from "@/lib/datos/db";
 import { useObra } from "@/lib/obra-context";
 import { useMiembro } from "@/lib/miembro-context";
 import { navLateral, navMovil } from "@/lib/nav";
@@ -17,6 +19,9 @@ import { BarraInferior, BarraLateral } from "./Navegacion";
 import { BarraSuperior } from "./BarraSuperior";
 import { FormObraNueva, SelectorObra } from "./SelectorObra";
 import { Refresco } from "./Refresco";
+
+/** Solo el modo demo (con «?demo=1»): botón para cambiar entre director y trabajador. */
+const CambiarRolDemo = MODO_MEMORIA ? dynamic(() => import("@/components/demo/CambiarRolDemo"), { ssr: false }) : null;
 
 /**
  * El armazón del panel (SHL-01): barra lateral en el ordenador (≥ 768 px),
@@ -96,6 +101,8 @@ export function Cascaron({ children }: { children: React.ReactNode }) {
         </main>
         {obras.length > 0 && <BarraInferior items={navMovil(rol, modulos)} pathname={pathname} />}
       </div>
+
+      {CambiarRolDemo && <CambiarRolDemo />}
 
       {eligiendo && (
         <Hoja titulo={tr("Elegir obra")} onCerrar={() => setEligiendo(false)}>

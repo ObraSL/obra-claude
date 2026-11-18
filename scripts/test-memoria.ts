@@ -12,6 +12,8 @@ import {
   crearAlmacen,
   crearClienteMemoria,
   deserializarAlmacen,
+  EMAIL_DIRECTOR_DEMO,
+  EMAIL_TRABAJADOR_DEMO,
   serializarAlmacen,
   type Almacen,
   type ModoRed,
@@ -626,6 +628,24 @@ async function main() {
     assert.equal((await db2.auth.getSession()).data.session?.user.email, MARTA);
     assert.equal((await db2.from("obras").select("*")).data.length, 3);
     ok("el almacén se serializa y se recupera (con sesión y archivos)");
+  }
+
+  // --- Los dos accesos sencillos de la demo (D-16) --------------------------
+  {
+    const a = nuevo();
+    const dir = cliente(a);
+    const rd = await dir.auth.signInWithPassword({ email: EMAIL_DIRECTOR_DEMO, password: CLAVE_DEMO });
+    assert.equal(rd.error, null);
+    assert.equal((await dir.auth.getSession()).data.session?.user.email, MARTA);
+    const dueno = (await dir.from("miembros").select("*").eq("email", MARTA)).data[0];
+    assert.equal(dueno.rol, "dueno");
+    const trab = cliente(a);
+    const rt = await trab.auth.signInWithPassword({ email: EMAIL_TRABAJADOR_DEMO.toUpperCase(), password: CLAVE_DEMO });
+    assert.equal(rt.error, null);
+    assert.equal((await trab.auth.getSession()).data.session?.user.email, DIEGO);
+    const mala = await cliente(a).auth.signInWithPassword({ email: EMAIL_DIRECTOR_DEMO, password: "otra" });
+    assert.equal(mala.error?.message, "Invalid login credentials");
+    ok("director@ y trabajador@ entran como Marta (dueña) y Diego (trabajador); con contraseña mala, no");
   }
 
   // --- Escenarios ------------------------------------------------------------

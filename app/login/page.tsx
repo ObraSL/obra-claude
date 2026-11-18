@@ -206,6 +206,19 @@ function LoginContenedor() {
               setPassword(clave);
               limpiarMensajes();
             }}
+            onEntrar={async (correo, clave) => {
+              limpiarMensajes();
+              setCargando(true);
+              const { error: err } = await iniciarSesion(db, correo, clave);
+              if (err) {
+                setError(err.message);
+                setCargando(false);
+                return;
+              }
+              localStorage.setItem(EMAIL_RECORDADO, correo);
+              router.push("/");
+              router.refresh();
+            }}
           />
         ) : undefined
       }

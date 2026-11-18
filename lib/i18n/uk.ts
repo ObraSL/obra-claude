@@ -630,6 +630,13 @@ export const uk: Record<string, string> = {
   "Pago sin confirmar": "Оплату не підтверджено",
   "Comprobando el pago…": "Перевіряю оплату…",
   // --- v2: textos nuevos de esta versión ---
+  "Entrar como director": "Увійти як директор",
+  "Entrar como trabajador": "Увійти як працівник",
+  "Todo: obras, dinero, ajustes y equipo": "Усе: об'єкти, гроші, налаштування й команда",
+  "Solo sus horas, vehículos y ajustes": "Лише свої години, машини й налаштування",
+  "Otras cuentas de prueba": "Інші тестові акаунти",
+  "Ver como director": "Дивитись як директор",
+  "Ver como trabajador": "Дивитись як працівник",
   "Tareas con retraso": "Роботи з відставанням",
   "Avance {a} %": "Прогрес {a}%",
   "Tiempo {t} %": "Час {t}%",

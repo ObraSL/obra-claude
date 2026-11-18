@@ -27,6 +27,11 @@ npm start
 
 ## 2. Entrar
 
+**Los dos accesos para comparar roles** (con `/login?demo=1`): dos botones grandes, «Entrar como director» y «Entrar como trabajador».
+Dentro de la app, un botón flotante («Ver como trabajador» / «Ver como director») cambia de uno a otro sin salir. También se pueden
+escribir a mano: `director@demo.invalid` y `trabajador@demo.invalid`, contraseña `demo-obra-2026` (valor falso de pruebas; son la
+dueña Marta Salvia y el trabajador Diego Navarro de la semilla).
+
 En **`/login?demo=1`**, debajo del formulario, hay una lista de **cuentas de prueba** (sin `?demo=1` no se ve: un trabajador o un cliente real no debe ver cuentas ficticias; el enlace con `?demo=1` lo recuerda ese navegador y `?demo=0` lo quita). Toca una y pulsa
 «Увійти» / «Entrar». La contraseña ya va puesta (es `demo-obra-2026`, un valor falso de pruebas).
 

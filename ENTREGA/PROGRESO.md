@@ -38,6 +38,8 @@
 
 - **Entrada rediseñada y cuentas de prueba ocultas salvo `?demo=1`** (D-15).
 
+- **Dos accesos (director / trabajador) y cambiador de rol en la demo** (D-16).
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.

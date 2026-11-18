@@ -101,6 +101,7 @@ export const serializarAlmacen = (almacen: Almacen): string => serializar(almace
 export const deserializarAlmacen = (json: string): Almacen => deserializar(json);
 
 export { CODIGOS_DEMO, CUENTAS_DEMO, clonarAlmacen, confirmarEmail, crearAlmacen };
+export { ALIAS_DEMO, EMAIL_DIRECTOR_DEMO, EMAIL_TRABAJADOR_DEMO } from "./alias";
 export const CLAVE_DEMO = CONTRASENA_DEMO;
 export { CONTRASENA_DEMO };
 export type { Almacen, Escenario, Fila, Tabla } from "./almacen";

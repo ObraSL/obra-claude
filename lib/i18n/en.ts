@@ -622,6 +622,13 @@ export const en: Record<string, string> = {
   "Pago sin confirmar": "Payment not confirmed",
   "Comprobando el pago…": "Checking the payment…",
   // --- v2: textos nuevos de esta versión ---
+  "Entrar como director": "Enter as director",
+  "Entrar como trabajador": "Enter as worker",
+  "Todo: obras, dinero, ajustes y equipo": "Everything: sites, money, settings and team",
+  "Solo sus horas, vehículos y ajustes": "Only their hours, vehicles and settings",
+  "Otras cuentas de prueba": "Other test accounts",
+  "Ver como director": "View as director",
+  "Ver como trabajador": "View as worker",
   "Tareas con retraso": "Tasks behind schedule",
   "Avance {a} %": "Progress {a}%",
   "Tiempo {t} %": "Time {t}%",

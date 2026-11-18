@@ -11,6 +11,7 @@ import {
   type Ctx,
 } from "./reglas";
 import type { Entorno } from "./consulta";
+import { ALIAS_DEMO } from "./alias";
 
 export type ErrorAuth = { name: string; message: string; status: number; code: string };
 export type EventoAuth = "INITIAL_SESSION" | "SIGNED_IN" | "SIGNED_OUT" | "USER_UPDATED";
@@ -197,7 +198,8 @@ export function crearAuth(entorno: Entorno, almacen: Almacen, reloj: () => Date,
     signInWithPassword({ email, password }) {
       return entorno.correr<RespuestaAuth>(
         (c) => {
-          const u = almacen.usuarios.find((x) => x.email === String(email ?? "").trim().toLowerCase());
+          const pedido = String(email ?? "").trim().toLowerCase();
+          const u = almacen.usuarios.find((x) => x.email === (ALIAS_DEMO[pedido] ?? pedido));
           if (!u || u.password !== password) {
             return { data: vacio, error: errorAuth("AuthApiError", "Invalid login credentials", 400, "invalid_credentials") };
           }
