@@ -27,7 +27,7 @@ npm start
 
 ## 2. Entrar
 
-En `/login`, debajo del formulario, hay una lista de **cuentas de prueba**. Toca una y pulsa
+En **`/login?demo=1`**, debajo del formulario, hay una lista de **cuentas de prueba** (sin `?demo=1` no se ve: un trabajador o un cliente real no debe ver cuentas ficticias; el enlace con `?demo=1` lo recuerda ese navegador y `?demo=0` lo quita). Toca una y pulsa
 «Увійти» / «Entrar». La contraseña ya va puesta (es `demo-obra-2026`, un valor falso de pruebas).
 
 | Para ver… | Cuenta |

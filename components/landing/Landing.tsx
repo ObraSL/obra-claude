@@ -36,7 +36,7 @@ export function Landing() {
 
       <section
         aria-label={tr("Progreso de la obra")}
-        className="shrink-0 rounded-panel bg-sup-honda px-4 pb-3 pt-3 text-sobre-honda"
+        className="vidrio-panel relative -mt-12 shrink-0 rounded-panel px-4 pb-3 pt-3 text-sobre-honda"
       >
         <div className="flex items-baseline justify-between gap-3">
           <p className="text-peq">{tr("Progreso de la obra")}</p>

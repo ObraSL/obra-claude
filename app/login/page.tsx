@@ -12,6 +12,13 @@ import { ID_PASSWORD, VistaLogin, type InfoCodigo, type ModoLogin } from "@/comp
 /** Solo el modo demo: lista de cuentas ficticias para entrar con un toque. */
 const CuentasDemo = MODO_MEMORIA ? dynamic(() => import("@/components/demo/CuentasDemo"), { ssr: false }) : null;
 
+/**
+ * Las cuentas de prueba NO se enseñan a cualquiera que abra /login: solo con el enlace
+ * «/login?demo=1» (queda recordado en este navegador; «?demo=0» lo quita). Así un
+ * trabajador o un cliente real nunca ve la lista de cuentas ficticias.
+ */
+const VER_CUENTAS_DEMO = "obra-demo:ver-cuentas";
+
 /** Solo se recuerda el email del último acceso; la contraseña nunca (ACC-02). */
 const EMAIL_RECORDADO = "control-de-obra:email";
 
@@ -48,6 +55,18 @@ function LoginContenedor() {
   const [error, setError] = useState("");
   const [claveIncorrecta, setClaveIncorrecta] = useState(false);
   const [aviso, setAviso] = useState("");
+  const [verDemo, setVerDemo] = useState(false);
+  const demoEnEnlace = params.get("demo");
+
+  useEffect(() => {
+    try {
+      if (demoEnEnlace === "1") localStorage.setItem(VER_CUENTAS_DEMO, "1");
+      else if (demoEnEnlace === "0") localStorage.removeItem(VER_CUENTAS_DEMO);
+      setVerDemo(localStorage.getItem(VER_CUENTAS_DEMO) === "1");
+    } catch {
+      setVerDemo(demoEnEnlace === "1");
+    }
+  }, [demoEnEnlace]);
 
   // Cada vez que cambia el código se consulta qué es (con 400 ms de pausa
   // para no preguntar por cada letra) y se enseña antes de crear la cuenta.
@@ -180,7 +199,7 @@ function LoginContenedor() {
       }}
       onEnviar={enviar}
       extra={
-        CuentasDemo && modo === "login" ? (
+        CuentasDemo && verDemo && modo === "login" ? (
           <CuentasDemo
             onElegir={(correo, clave) => {
               setEmail(correo);

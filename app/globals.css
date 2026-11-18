@@ -523,3 +523,19 @@ textarea {
     animation: none;
   }
 }
+
+/* La foto sin fundido en pantallas anchas (p. ej. a un lado del formulario de entrada). */
+@media (min-width: 48rem) {
+  .foto-obra.foto-obra--plena-md {
+    --foto-mascara: linear-gradient(#000, #000);
+  }
+}
+
+/* Texto que se apoya en la foto (título de la pantalla de entrada): sombra oscura en
+   el tema salvia (texto blanco) y halo claro en el tema claro (texto oscuro). */
+.texto-sobre-foto {
+  text-shadow: 0 2px 20px rgb(20 22 19 / 0.6);
+}
+:root[data-tema="claro"] .texto-sobre-foto {
+  text-shadow: 0 1px 14px rgb(255 255 255 / 0.75);
+}

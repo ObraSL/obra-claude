@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { tr } from "@/lib/i18n";
 import { Logo } from "@/components/marca/Logo";
+import { FotoObra } from "@/components/marca/FotoObra";
 import { Boton } from "@/components/ui/Boton";
 import { Campo, Entrada } from "@/components/ui/Campo";
 import { Aviso } from "@/components/ui/Aviso";
@@ -46,29 +47,34 @@ export type PropsVistaLogin = {
 export function VistaLogin(p: PropsVistaLogin) {
   const codigoValido = p.codigoInfo.estado === "empresa" || p.codigoInfo.estado === "alta";
   return (
-    <main className="mx-auto flex min-h-[100dvh] w-full max-w-sm flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[max(env(safe-area-inset-top),16px)]">
-      {/* En la app instalada no hay barra del navegador: sin esta flecha no
-          se podría volver a la pantalla de inicio (T-12). */}
-      <div className="flex shrink-0 items-center justify-between gap-3">
-        <Link
-          href="/"
-          aria-label={tr("Volver")}
-          className="inline-flex size-11 items-center justify-center rounded-[8px] bg-sup-alta/70 hover:brightness-110"
-        >
-          <ArrowLeft size={20} aria-hidden />
-        </Link>
-        <SelectorIdioma />
+    <main className="mx-auto w-full max-w-md md:grid md:min-h-[100dvh] md:max-w-5xl md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10 md:px-8">
+      {/* La obra, arriba (como el «Welcome» de la referencia): la foto sangra hasta los
+          bordes en el móvil y en el ordenador se pone a un lado, sin fundido. */}
+      <div className="relative md:self-center">
+        <FotoObra prioritaria className="h-[20rem] md:h-[min(37rem,88dvh)] md:rounded-panel foto-obra--plena-md" />
+        {/* En la app instalada no hay barra del navegador: sin esta flecha no
+            se podría volver a la pantalla de inicio (T-12). */}
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 px-5 pt-[max(env(safe-area-inset-top),16px)] md:px-4 md:pt-4">
+          <Link
+            href="/"
+            aria-label={tr("Volver")}
+            className="inline-flex size-11 items-center justify-center rounded-[8px] bg-[rgb(20_22_19/0.55)] text-white backdrop-blur-md hover:brightness-110"
+          >
+            <ArrowLeft size={20} aria-hidden />
+          </Link>
+          <SelectorIdioma />
+        </div>
       </div>
 
-      <div className="mt-7 flex items-center gap-3">
+      <div className="relative -mt-24 px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:mt-0 md:px-0 md:pb-0">
         <Logo compacto />
-        <h1 className="text-h1 font-medium tracking-[-0.02em]">Control de Obra</h1>
-      </div>
-      <p className="mt-1 text-base">
-        {p.modo === "login" ? tr("Iniciar sesión") : p.modo === "signup" ? tr("Crear cuenta") : tr("¿Olvidaste tu contraseña?")}
-      </p>
+        <h1 className="mt-3 texto-sobre-foto text-cifra font-light tracking-[-0.03em]">Control de Obra</h1>
+        <p className="texto-sobre-foto mt-1 text-base">
+          {p.modo === "login" ? tr("Iniciar sesión") : p.modo === "signup" ? tr("Crear cuenta") : tr("¿Olvidaste tu contraseña?")}
+        </p>
 
-      <form onSubmit={p.onEnviar} className="mt-5 grid gap-3.5" noValidate={false}>
+        <div className="vidrio mt-4 rounded-panel p-4">
+      <form onSubmit={p.onEnviar} className="grid gap-3.5" noValidate={false}>
         <Campo etiqueta={tr("Email")} htmlFor="login-email">
           <Entrada
             id="login-email"
@@ -207,8 +213,10 @@ export function VistaLogin(p: PropsVistaLogin) {
               : tr("Volver a iniciar sesión")}
         </button>
       </div>
+        </div>
 
-      {p.extra}
+        {p.extra}
+      </div>
     </main>
   );
 }
