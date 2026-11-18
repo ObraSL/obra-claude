@@ -99,7 +99,8 @@ export function Resumen() {
       const { exportarResumenObra } = await import("@/lib/exportar-excel");
       exportarResumenObra({
         nombreObra: obraActual.nombre,
-        mesLabel: monthLabel(mes),
+        // «Листопад 2026 р.» acabaría en punto y el nombre del archivo en «р..xlsx».
+        mesLabel: monthLabel(mes).replace(/\s?р\.$/, ""),
         fichajes: fichajesMes,
         trabajadores,
         gastos: gastosMes,

@@ -34,6 +34,8 @@
 
 - **Medidor + tarjetas «Fichados hoy» / «Tareas con retraso»** en Inicio del gestor (D-14).
 
+- **Revisión funcional (2026-11-18, en la demo en vivo)**: gastos (alta/edición/borrado en dos pasos, foto comprimida a 1600 px, filtros), dinero, planificación (validación, avance ponderado, importar Excel), vehículos, cuadrilla y corrección de horas, resumen + exportar Excel, ajustes (aprobar cuentas, módulos), puertas por rol/estado, login con código de empresa. Único fallo hallado: el nombre del Excel acababa en «р..xlsx» en ucraniano (corregido en `Resumen.tsx`).
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.
