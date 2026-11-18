@@ -27,6 +27,8 @@ npm start
 
 ## 2. Entrar
 
+**En la app instalada en el móvil** (sin barra de direcciones) no se puede escribir `?demo=1`: en la pantalla de entrada y en la de registro hay un enlace discreto, **«Mostrar las cuentas de demo»** («Показати демо-акаунти»), que las activa en ese dispositivo (y «Ocultar…» las quita). En iPhone la app instalada guarda sus datos aparte de Safari: hay que activarlo también dentro de ella.
+
 **Los dos accesos para comparar roles** (con `/login?demo=1`): dos botones grandes, «Entrar como director» y «Entrar como trabajador».
 Dentro de la app, un botón flotante («Ver como trabajador» / «Ver como director») cambia de uno a otro sin salir. También se pueden
 escribir a mano: `director@demo.invalid` y `trabajador@demo.invalid`, contraseña `demo-obra-2026` (valor falso de pruebas; son la

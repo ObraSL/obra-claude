@@ -40,6 +40,8 @@
 
 - **Dos accesos (director / trabajador) y cambiador de rol en la demo** (D-16).
 
+- **Enlace «Mostrar las cuentas de demo»** para la app instalada en el móvil (D-17).
+
 ## Falta (nada de esto obliga a rehacer lo hecho)
 1. **4 pantallas poco frecuentes**: `/alta`, `/alta/ok`, `/reset-password`, `/admin`.
    Patrón a copiar: `app/login/page.tsx` + `components/pantallas/login/VistaLogin.tsx`.

@@ -102,6 +102,17 @@ function LoginContenedor() {
     }
   }, []);
 
+  const alternarCuentasDemo = () => {
+    const nuevo = !verDemo;
+    try {
+      if (nuevo) localStorage.setItem(VER_CUENTAS_DEMO, "1");
+      else localStorage.removeItem(VER_CUENTAS_DEMO);
+    } catch {
+      /* sin almacenamiento: solo vale para esta pantalla */
+    }
+    setVerDemo(nuevo);
+  };
+
   const limpiarMensajes = () => {
     setError("");
     setClaveIncorrecta(false);
@@ -199,27 +210,42 @@ function LoginContenedor() {
       }}
       onEnviar={enviar}
       extra={
-        CuentasDemo && verDemo && modo === "login" ? (
-          <CuentasDemo
-            onElegir={(correo, clave) => {
-              setEmail(correo);
-              setPassword(clave);
-              limpiarMensajes();
-            }}
-            onEntrar={async (correo, clave) => {
-              limpiarMensajes();
-              setCargando(true);
-              const { error: err } = await iniciarSesion(db, correo, clave);
-              if (err) {
-                setError(err.message);
-                setCargando(false);
-                return;
-              }
-              localStorage.setItem(EMAIL_RECORDADO, correo);
-              router.push("/");
-              router.refresh();
-            }}
-          />
+        // Solo en la versión de demostración. La app instalada en el móvil no tiene barra de
+        // direcciones (no se puede escribir «?demo=1») y en iPhone guarda sus datos aparte del
+        // navegador: por eso hay un botón discreto que lo activa o lo oculta desde la propia pantalla.
+        CuentasDemo ? (
+          <>
+            {verDemo && modo !== "recuperar" && (
+              <CuentasDemo
+                onElegir={(correo, clave) => {
+                  setModo("login");
+                  setEmail(correo);
+                  setPassword(clave);
+                  limpiarMensajes();
+                }}
+                onEntrar={async (correo, clave) => {
+                  limpiarMensajes();
+                  setCargando(true);
+                  const { error: err } = await iniciarSesion(db, correo, clave);
+                  if (err) {
+                    setError(err.message);
+                    setCargando(false);
+                    return;
+                  }
+                  localStorage.setItem(EMAIL_RECORDADO, correo);
+                  router.push("/");
+                  router.refresh();
+                }}
+              />
+            )}
+            <button
+              type="button"
+              onClick={alternarCuentasDemo}
+              className="mt-3 min-h-11 w-full rounded-boton text-center text-peq font-medium underline underline-offset-4 opacity-80"
+            >
+              {verDemo ? tr("Ocultar las cuentas de demo") : tr("Mostrar las cuentas de demo")}
+            </button>
+          </>
         ) : undefined
       }
     />

@@ -630,6 +630,8 @@ export const uk: Record<string, string> = {
   "Pago sin confirmar": "Оплату не підтверджено",
   "Comprobando el pago…": "Перевіряю оплату…",
   // --- v2: textos nuevos de esta versión ---
+  "Mostrar las cuentas de demo": "Показати демо-акаунти",
+  "Ocultar las cuentas de demo": "Сховати демо-акаунти",
   "Entrar como director": "Увійти як директор",
   "Entrar como trabajador": "Увійти як працівник",
   "Todo: obras, dinero, ajustes y equipo": "Усе: об'єкти, гроші, налаштування й команда",

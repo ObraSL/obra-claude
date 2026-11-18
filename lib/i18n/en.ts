@@ -622,6 +622,8 @@ export const en: Record<string, string> = {
   "Pago sin confirmar": "Payment not confirmed",
   "Comprobando el pago…": "Checking the payment…",
   // --- v2: textos nuevos de esta versión ---
+  "Mostrar las cuentas de demo": "Show demo accounts",
+  "Ocultar las cuentas de demo": "Hide demo accounts",
   "Entrar como director": "Enter as director",
   "Entrar como trabajador": "Enter as worker",
   "Todo: obras, dinero, ajustes y equipo": "Everything: sites, money, settings and team",
